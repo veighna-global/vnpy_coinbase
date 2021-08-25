@@ -96,7 +96,6 @@ class CoinbaseGateway(BaseGateway):
         "ID": "",
         "Secret": "",
         "passphrase": "",
-        "会话数": 3,
         "server": ["REAL", "SANDBOX"],
         "proxy_host": "",
         "proxy_port": "",
@@ -115,7 +114,6 @@ class CoinbaseGateway(BaseGateway):
         """"""
         key = setting["ID"]
         secret = setting["Secret"]
-        session_number = setting["会话数"]
         proxy_host = setting["proxy_host"]
         proxy_port = setting["proxy_port"]
         server = setting["server"]
@@ -130,7 +128,6 @@ class CoinbaseGateway(BaseGateway):
             key,
             secret,
             passphrase,
-            session_number,
             server,
             proxy_host,
             proxy_port
@@ -548,7 +545,6 @@ class CoinbaseRestApi(RestClient):
         key: str,
         secret: str,
         passphrase: str,
-        session_number: int,
         server: str,
         proxy_host: str,
         proxy_port: int,
@@ -565,7 +561,7 @@ class CoinbaseRestApi(RestClient):
         else:
             self.init(SANDBOX_REST_HOST, proxy_host, proxy_port)
 
-        self.start(session_number)
+        self.start()
 
         self.query_instrument()
         self.query_order()
