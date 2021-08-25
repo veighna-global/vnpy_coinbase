@@ -494,21 +494,20 @@ class CoinbaseRestApi(RestClient):
                 data.reverse()
                 buf: List[BarData] = []
 
-                for l in data[1:]:
-                    dt: datetime = datetime.fromtimestamp(l[0])
+                for row in data[1:]:
+                    dt: datetime = datetime.fromtimestamp(row[0])
                     dt: datetime = UTC_TZ.localize(dt)
 
-                    o, h, l, c, v = l[1:]
                     bar: BarData = BarData(
                         symbol=req.symbol,
                         exchange=req.exchange,
                         datetime=dt,
                         interval=req.interval,
-                        volume=v,
-                        open_price=o,
-                        high_price=h,
-                        low_price=l,
-                        close_price=c,
+                        volume=row[5],
+                        open_price=row[3],
+                        high_price=row[2],
+                        low_price=row[1],
+                        close_price=row[4],
                         gateway_name=self.gateway_name
                     )
                     buf.append(bar)
