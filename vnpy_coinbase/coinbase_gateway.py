@@ -2,7 +2,6 @@ import decimal
 import hashlib
 import hmac
 import json
-import sys
 import time
 from copy import copy
 from datetime import datetime, timedelta
@@ -444,9 +443,7 @@ class CoinbaseRestApi(RestClient):
         msg: str = f"触发异常，状态码：{exception_type}，信息：{exception_value}"
         self.gateway.write_log(msg)
 
-        sys.stderr.write(
-            self.exception_detail(exception_type, exception_value, tb, request)
-        )
+        super().on_error(exception_type, exception_value, tb, request)
 
     def query_history(self, req: HistoryRequest) -> List[BarData]:
         """查询历史数据"""
