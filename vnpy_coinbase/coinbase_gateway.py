@@ -83,8 +83,11 @@ TIMEDELTA_MAP: Dict[Interval, timedelta] = {
     Interval.DAILY: timedelta(days=1),
 }
 
-sys_order_map = {}
-symbol_name_map = {}
+# 委托信息全局缓存字典
+sys_order_map: Dict[str, OrderData] = {}
+
+# 合约名称全局缓存字典
+symbol_name_map: Dict[str, str] = {}
 
 
 class CoinbaseGateway(BaseGateway):
