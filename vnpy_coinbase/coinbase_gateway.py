@@ -97,8 +97,8 @@ class CoinbaseGateway(BaseGateway):
         "Secret": "",
         "passphrase": "",
         "server": ["REAL", "SANDBOX"],
-        "proxy_host": "",
-        "proxy_port": "",
+        "代理地址": "",
+        "代理端口": 0,
     }
 
     exchanges = [Exchange.COINBASE]
@@ -114,15 +114,10 @@ class CoinbaseGateway(BaseGateway):
         """"""
         key = setting["ID"]
         secret = setting["Secret"]
-        proxy_host = setting["proxy_host"]
-        proxy_port = setting["proxy_port"]
+        proxy_host = setting["代理地址"]
+        proxy_port = setting["代理端口"]
         server = setting["server"]
         passphrase = setting["passphrase"]
-
-        if proxy_port.isdigit():
-            proxy_port = int(proxy_port)
-        else:
-            proxy_port = 0
 
         self.rest_api.connect(
             key,
