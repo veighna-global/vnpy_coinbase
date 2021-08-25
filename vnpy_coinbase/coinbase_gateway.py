@@ -10,7 +10,7 @@ import uuid
 import pytz
 from decimal import Decimal
 
-from typing import List, Sequence
+from typing import List, Sequence, Dict
 
 from requests import ConnectionError
 
@@ -40,34 +40,48 @@ from vnpy.trader.object import (
     HistoryRequest
 )
 
+# UTC时区
+UTC_TZ = pytz.utc
+
+# 实盘REST API地址
 REST_HOST = "https://api.pro.coinbase.com"
+
+# 实盘Websocket API地址
 WEBSOCKET_HOST = "wss://ws-feed.pro.coinbase.com"
 
+# 模拟盘REST API地址
 SANDBOX_REST_HOST = "https://api-public.sandbox.pro.coinbase.com"
+
+# 模拟盘Websocket API地址
 SANDBOX_WEBSOCKET_HOST = "wss://ws-feed-public.sandbox.pro.coinbase.com"
 
-DIRECTION_VT2COINBASE = {Direction.LONG: "buy", Direction.SHORT: "sell"}
-DIRECTION_COINBASE2VT = {v: k for k, v in DIRECTION_VT2COINBASE.items()}
-
-ORDERTYPE_VT2COINBASE = {
+# 委托类型映射
+ORDERTYPE_VT2COINBASE: Dict[OrderType, str] = {
     OrderType.LIMIT: "limit",
     OrderType.MARKET: "market",
 }
-ORDERTYPE_COINBASE2VT = {v: k for k, v in ORDERTYPE_VT2COINBASE.items()}
+ORDERTYPE_COINBASE2VT: Dict[str, OrderType] = {v: k for k, v in ORDERTYPE_VT2COINBASE.items()}
 
-INTERVAL_VT2COINBASE = {
+# 买卖方向映射
+DIRECTION_VT2COINBASE: Dict[Direction, str] = {
+    Direction.LONG: "buy",
+    Direction.SHORT: "sell"
+}
+DIRECTION_COINBASE2VT: Dict[str, Direction] = {v: k for k, v in DIRECTION_VT2COINBASE.items()}
+
+# 数据频率映射
+INTERVAL_VT2COINBASE: Dict[Interval, int] = {
     Interval.MINUTE: 60,
     Interval.HOUR: 3600,
     Interval.DAILY: 86400,
 }
 
-TIMEDELTA_MAP = {
+# 时间间隔映射
+TIMEDELTA_MAP: Dict[Interval, timedelta] = {
     Interval.MINUTE: timedelta(minutes=1),
     Interval.HOUR: timedelta(hours=1),
     Interval.DAILY: timedelta(days=1),
 }
-
-UTC_TZ = pytz.utc
 
 sys_order_map = {}
 symbol_name_map = {}
@@ -75,7 +89,7 @@ symbol_name_map = {}
 
 class CoinbaseGateway(BaseGateway):
     """
-    VN Trader Gateway for coinbase connection
+    vn.py用于对接Coinbase交易所的交易接口。
     """
 
     default_setting = {
