@@ -785,6 +785,7 @@ class OrderBook():
         tick.low_price = float(d["low_24h"])
         tick.last_price = float(d["price"])
         tick.volume = float(d["volume_24h"])
+        tick.localtime = datetime.now()
 
         self.gateway.on_tick(copy(tick))
 
@@ -819,6 +820,7 @@ class OrderBook():
             setattr(tick, f"ask_volume_{i + 1}", volume)
 
         tick.datetime = dt
+        tick.localtime = datetime.now()
         self.gateway.on_tick(copy(tick))
 
 
