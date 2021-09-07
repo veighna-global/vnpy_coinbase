@@ -739,8 +739,6 @@ class OrderBook():
             gateway_name=gateway.gateway_name,
         )
 
-        self.first_update: bool = False
-
     def on_message(self, d: dict) -> None:
         """Websocket订单簿更新推送"""
         if d["type"] == "l2update":
