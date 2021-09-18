@@ -40,6 +40,7 @@ from vnpy.trader.object import (
     HistoryRequest
 )
 
+
 # UTC时区
 UTC_TZ = pytz.utc
 
@@ -179,7 +180,7 @@ class CoinbaseGateway(BaseGateway):
         """初始化查询任务"""
         self.event_engine.register(EVENT_TIMER, self.process_timer_event)
 
-    
+
 class CoinbaseRestApi(RestClient):
     """Coinbase的REST接口"""
 
@@ -199,8 +200,12 @@ class CoinbaseRestApi(RestClient):
     def sign(self, request: Request) -> Request:
         """生成Coinbase签名"""
         timestamp: str = str(time.time())
-        message: str = "".join([timestamp, request.method,
-                           request.path, request.data or ""])
+        message: str = "".join([
+            timestamp,
+            request.method,
+            request.path,
+            request.data or ""
+        ])
         request.headers = (get_auth_header(timestamp, message,
                                            self.key,
                                            self.secret,
